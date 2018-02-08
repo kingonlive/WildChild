@@ -5,6 +5,7 @@ volley项目地址:　https://github.com/google/volley
 
 
 # 整体架构
+![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/volley/overall.png)
 
 # 使用示例
 ```
