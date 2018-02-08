@@ -1,7 +1,7 @@
 # 简介
-> volley是谷歌在2013年GoogleIO上推出的网络库，专用于大并发小数量的网络请求，在架构设计上高内聚低耦合，扩展性和灵活性都非常好．
-> 官方介绍:　https://developer.android.com/training/volley/index.html
-> volley项目地址:　https://github.com/google/volley
+- volley是谷歌在2013年GoogleIO上推出的网络库，专用于大并发小数量的网络请求，在架构设计上高内聚低耦合，扩展性和灵活性都非常好．
+- 官方介绍:　https://developer.android.com/training/volley/index.html
+- volley项目地址:　https://github.com/google/volley
 
 
 # 整体架构
