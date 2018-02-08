@@ -5,6 +5,10 @@
 
 
 # 整体架构
+整体架构大致可以分成四层
+- 用户接口层，包含RequestQueue/Request/JsonRequest/StringRequest/ImageRequest/ErrorListener等
+- 核心层：CacheDispatcher和NetworkDispatcher
+- 基础层：网络和缓存
 ![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/volley/overall.png)
 
 # 使用示例
@@ -37,4 +41,7 @@ queue.add(stringRequest);
 ![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/volley/classes.png)
 
 # 线程模型
+- 下图是一个示例，实际上有四条network线程一条cache线程
+- 用户在主线程添加请求，默认将请求加到缓存请求队列，当本地或内存无缓存请求时，请求将被添加到网络请求队列
+- 缓存线程在有请求结果时将结果派发到UI线程,网络线程在请求网络并解析请求结果后，将请求结果派发到UI线程
 ![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/volley/threadmodel.png)
