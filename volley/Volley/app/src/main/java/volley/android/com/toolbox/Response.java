@@ -15,7 +15,7 @@ public class Response<T> {
     public final T result;
 
     /**
-     * 改请求结果的元数据，若请求结果出错则该值为null
+     * 该请求结果的缓存实体,内有请求结果的元数据，若请求结果出错则该值为null
      */
     public final Cache.Entry cacheEntry;
 
