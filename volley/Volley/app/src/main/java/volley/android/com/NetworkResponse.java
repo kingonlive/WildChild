@@ -28,7 +28,7 @@ public class NetworkResponse {
     public final Map<String, String> headers;
 
     /**
-     * 所有的HTTP响应头部,该集合不可直接操作
+     * 所有的HTTP响应头部,该集合不可修改
      */
     public final List<Header> allHeaders;
 

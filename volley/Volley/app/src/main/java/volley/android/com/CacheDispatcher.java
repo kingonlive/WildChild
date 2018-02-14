@@ -1,5 +1,7 @@
 package volley.android.com;
 
+import android.os.Process;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -197,5 +199,91 @@ public class CacheDispatcher extends Thread {
             }
         }
 
+    }
+
+    @Override
+    public void run() {
+        if (DEBUG) VolleyLog.v("start new dispatcher");
+        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);
+
+        //初始化缓存
+        mCache.initialize();
+
+
+        while (true){
+            try {
+                processRequest();
+            } catch (InterruptedException e) {
+                if (mQuit){
+                    break;
+                }
+            }
+        }
+    }
+
+    private void processRequest() throws InterruptedException{
+        //若队列中没数据,这里会阻塞直到有为止
+        final Request request = mCacheQueue.take();
+        request.addMarker("cache-queue-take");
+
+        if (request.isCanceled()){
+            request.finish("cache-discard-canceled");
+            return;
+        }
+
+        Cache.Entry entry = mCache.get(request.getCacheKey());
+        if (entry == null){
+            //缓存未命中
+            request.addMarker("cache-miss");
+            if (!mWaitingRequestManager.maybeAddToWaitingRequests(request)){
+                mNetworkQueue.put(request);
+            }
+            return;
+        }
+
+        //缓存过期
+        if (entry.isExpired()){
+            request.addMarker("cache-hit-expired");
+            if (!mWaitingRequestManager.maybeAddToWaitingRequests(request)){
+                mNetworkQueue.put(request);
+            }
+            return;
+        }
+
+        //缓存命中并且未过期
+        request.addMarker("cache-hit");
+
+        //解析缓存数据
+        Response<?> response = request.parseNetworkResponse(new NetworkResponse(entry.data, entry.responseHeaders));
+        request.addMarker("cache-hit-parsed");
+
+        //缓存不需要刷新
+        if (!entry.refreshNeeded()){
+            mDelivery.postResponse(request, response);
+        } else {
+            //缓存需要刷新，我们可以先把响应结果派发出去，但是之后这个响应的请求还需要扔回网络队列中去请求刷新
+            request.addMarker("cache-hit-refresh-needed");
+            request.setCacheEntry(entry);
+            //把当前这个响应结果标记成中间状态，因为我们虽然派发出去了，但是它还需要再去访问网络确认结果可用
+            response.intermediate = true;
+
+            if (!mWaitingRequestManager.maybeAddToWaitingRequests(request)) {
+
+                //请求列表中还没有这个请求
+                mDelivery.postResponse(request, response, new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            mNetworkQueue.put(request);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                });
+            } else {
+                //请求列表中已经有相同的请求了，我们不需要再请求网络
+                mDelivery.postResponse(request, response);
+            }
+        }
     }
 }

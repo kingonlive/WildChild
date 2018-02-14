@@ -41,12 +41,14 @@ public interface Cache {
         public long lastModified;
 
         /**
-         * 当前记录的ttl
+         * 根据Cache-Control的max-age及其他条件计算出来的缓存到期最终时间（时间戳）
          */
         public long ttl;
 
         /**
-         * 当前记录的软ttl
+         * 缓存需被刷新的时间
+         * 根据max-age及stale-while-revalidate计算出来的缓存到期时间（时间戳）
+         * 非stale-while-revalidate的情况下这个值和ttl是一样的,stale-while-revalidate的情况这个值比ttl小
          */
         public long softTtl;
 
@@ -80,14 +82,14 @@ public interface Cache {
     }
 
     /**
-     * 从缓存中获取缓存项
+     * 从本地缓存中获取缓存项
      * @param key 缓存项的键
      * @return
      */
     Entry get(String key);
 
     /**
-     * 添加或替换缓存项
+     * 添加或替换缓存项(落地)
      * @param key 缓存项的键
      * @param entry 新的缓存项
      */
@@ -99,9 +101,9 @@ public interface Cache {
     void initialize();
 
     /**
-     * 刷新指定缓存项
+     * 刷新缓存新鲜度,刷新之后缓存需要请求后台更新
      * @param key 需被刷新的缓存项
-     * @param fullExpire 是让缓存项完全过期
+     * @param fullExpire 让缓存项完全过期
      */
     void invalidate(String key, boolean fullExpire);
 
