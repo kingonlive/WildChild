@@ -20,7 +20,7 @@
 
 # 界面布局
 以任务列表界面为例：
-![drawer.png](https://raw.githubusercontent.com/kingonlive/WildChild/master/todo-mvp/drawer.png =360x640)
+![drawer.png](https://raw.githubusercontent.com/kingonlive/WildChild/master/todo-mvp/drawer.png)
 
 # 四.整体架构
 ![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/todo-mvp/todo-mvp-arch.png)
