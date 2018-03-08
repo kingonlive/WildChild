@@ -30,24 +30,13 @@
             └── architecture
                 └── blueprints
                     └── todoapp
+                        ├── BasePresenter.java
+                        ├── BaseView.java
                         ├── addedittask
                         │   ├── AddEditTaskActivity.java
                         │   ├── AddEditTaskContract.java
                         │   ├── AddEditTaskFragment.java
                         │   └── AddEditTaskPresenter.java
-                        ├── BasePresenter.java
-                        ├── BaseView.java
-                        ├── data
-                        │   ├── source
-                        │   │   ├── local
-                        │   │   │   ├── TasksDbHelper.java
-                        │   │   │   ├── TasksLocalDataSource.java
-                        │   │   │   └── TasksPersistenceContract.java
-                        │   │   ├── remote
-                        │   │   │   └── TasksRemoteDataSource.java
-                        │   │   ├── TasksDataSource.java
-                        │   │   └── TasksRepository.java
-                        │   └── Task.java
                         ├── statistics
                         │   ├── StatisticsActivity.java
                         │   ├── StatisticsContract.java
@@ -65,6 +54,17 @@
                         │   ├── TasksFilterType.java
                         │   ├── TasksFragment.java
                         │   └── TasksPresenter.java
+                        ├── data
+                        │   ├── source
+                        │   │   ├── local
+                        │   │   │   ├── TasksDbHelper.java
+                        │   │   │   ├── TasksLocalDataSource.java
+                        │   │   │   └── TasksPersistenceContract.java
+                        │   │   ├── remote
+                        │   │   │   └── TasksRemoteDataSource.java
+                        │   │   ├── TasksDataSource.java
+                        │   │   └── TasksRepository.java
+                        │   └── Task.java
                         └── util
                             ├── ActivityUtils.java
                             ├── EspressoIdlingResource.java
@@ -72,8 +72,20 @@
 
 15 directories, 30 files
 ```
+其中，
+addedittask/statistics/taskdetail/tasks四个子目录分别对应四个界面．
+data子目录是MVP中的model层，数据源来自与远端(假的）remote和本地local.
+BasePresenter/BaseView是MVP中P和V的基类.
 
 # 实现类图
+addedittask/statistics/taskdetail/tasks四个模块的类结构相同，以tasks为例
+![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/todo-mvp/todo-mvp.png)
+- TasksContract内部定义了该子模块的业务逻辑和UI的展现逻辑，业务逻辑在内部类Presenter（接口）中，UI的展示逻辑在内部类View（接口）中
+- 数据仓库TasksRepository实现了数据源接口TasksDataSource，内部以一个Map容器在内存中缓存数据
+- 远端数据源TasksRemoteDataSource（模拟的远端数据源）实现了数据源接口TasksDataSource，本地数据源TasksLocalDataSource也实现了数据源接口TasksDataSource.
+
+# 各契约类约定的逻辑梳理
+
 
 # 关于自动化测试
 在该项目中，presenter/model/UI界面，都是能够测试的，他们的测试代码存在与以下文件夹中：
