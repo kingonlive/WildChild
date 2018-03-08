@@ -1,15 +1,18 @@
 # 简介
- - android-architecture（https://github.com/googlesamples/android-architecture）是官方推出的一个应用开发架构指引，用来引导开发者开发可测性，维护性，扩展性更高的应用．里面以一个简单项目的多种不同架构实现方式来展示如何完成一个应用．
+ - android-architecture是官方推出的一个应用开发架构指引，用来引导开发者开发可测性，维护性，扩展性更高的应用．里面以一个简单项目的多种不同架构实现方式来展示如何完成一个应用．
  - 作为这个架构指引学习的第一个项目，我先选了一个最简单的todo-mvp.这个项目以一个不使用任何架构组件的MVP架构来实现一个简单的任务管理应用．后续的其他几个项目也是基于这个项目以引入其他组件的方式（例如使用依赖注入框架Dagger或者RxJava）做的变更．
+ - https://github.com/googlesamples/android-architecture
 
-# 界面构成
+# 应用的界面
 整个应用由以下四个界面构成：
  - 任务列表（Tasks）：一个被管理任务的列表界面
  - 任务详情（TaskDetail）：用来阅读或删除任务的界面
  - 任务编辑（AddEditTask）：新建或便利任务的界面
  - 分析界面（Statistics）：展示与任务有关的分析
+
+# 界面构成
 以上四个界面，由以下几个类和接口构成：
- - 契约类（xxContract）：用来定义MVP中View和Presenter的接口，每一个界面做了什么事情能展示实名内容都在这里可以看到，一目了然．
+ - 契约类（xxContract）：用来定义MVP中View和Presenter的接口，每一个界面做了什么事情能展示什么内容这里都一目了然．
  - Activity：就是android的界面组件，在这里几个项目里，它负责创建Fragment和Presenter
  - Fragment：实现MVP中的View
  - Presenter：实现MVP中的P
