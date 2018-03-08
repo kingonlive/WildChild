@@ -21,6 +21,57 @@
 # 项目的概要概要
 ![N|Solid](https://raw.githubusercontent.com/kingonlive/WildChild/master/todo-mvp/todo-mvp-arch.png)
 
+# 代码组织结构
+```
+.
+└── com
+    └── example
+        └── android
+            └── architecture
+                └── blueprints
+                    └── todoapp
+                        ├── addedittask
+                        │   ├── AddEditTaskActivity.java
+                        │   ├── AddEditTaskContract.java
+                        │   ├── AddEditTaskFragment.java
+                        │   └── AddEditTaskPresenter.java
+                        ├── BasePresenter.java
+                        ├── BaseView.java
+                        ├── data
+                        │   ├── source
+                        │   │   ├── local
+                        │   │   │   ├── TasksDbHelper.java
+                        │   │   │   ├── TasksLocalDataSource.java
+                        │   │   │   └── TasksPersistenceContract.java
+                        │   │   ├── remote
+                        │   │   │   └── TasksRemoteDataSource.java
+                        │   │   ├── TasksDataSource.java
+                        │   │   └── TasksRepository.java
+                        │   └── Task.java
+                        ├── statistics
+                        │   ├── StatisticsActivity.java
+                        │   ├── StatisticsContract.java
+                        │   ├── StatisticsFragment.java
+                        │   └── StatisticsPresenter.java
+                        ├── taskdetail
+                        │   ├── TaskDetailActivity.java
+                        │   ├── TaskDetailContract.java
+                        │   ├── TaskDetailFragment.java
+                        │   └── TaskDetailPresenter.java
+                        ├── tasks
+                        │   ├── ScrollChildSwipeRefreshLayout.java
+                        │   ├── TasksActivity.java
+                        │   ├── TasksContract.java
+                        │   ├── TasksFilterType.java
+                        │   ├── TasksFragment.java
+                        │   └── TasksPresenter.java
+                        └── util
+                            ├── ActivityUtils.java
+                            ├── EspressoIdlingResource.java
+                            └── SimpleCountingIdlingResource.java
+
+15 directories, 30 files
+```
 
 # 实现类图
 
